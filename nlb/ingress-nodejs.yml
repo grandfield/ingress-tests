@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-nodejs
+  annotations:
+    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
+
+spec:
+  rules:
+  - host: localhost #Could have been test.develop.iiotdev.pilz-ie.cloud
+    http:
+      paths:
+        - path: /nodejs1 
+          backend:
+            serviceName: nodejs1
+            servicePort: 80
