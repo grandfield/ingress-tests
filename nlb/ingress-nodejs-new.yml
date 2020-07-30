@@ -1,16 +1,19 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-node
+  name: ingress-node-new
   annotations:
+    #kubernetes.io/ingress.class: "nsx"
+    #ncp/use-regex: "True"
     nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
 
 spec:
   rules:
-  - host: <<namespace>>.localhost
+  - host: new.localhost
     http:
       paths:
-        - path: /nodejs1 
+        - path: /<<namespace>>/nodejs1
           backend:
+            namespace: ns1
             serviceName: nodejs1
             servicePort: 80

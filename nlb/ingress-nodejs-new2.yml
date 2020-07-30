@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-node-new2
+
+spec:
+  rules:
+  - host: new.localhost
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: ns1
+  name: ingress-node-new2
+  annotations:
+    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
+
+spec:
+  rules:
+  - host: new.localhost
+    http:
+      paths:
+        - path: /ns1/nodejs1
+          backend:
+            serviceName: nodejs1
+            servicePort: 80
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: ns2
+  name: ingress-node-new2
+  annotations:
+    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
+
+spec:
+  rules:
+  - host: new.localhost
+    http:
+      paths:
+        - path: /ns2/nodejs1
+          backend:
+            serviceName: nodejs1
+            servicePort: 80           
