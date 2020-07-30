@@ -11,13 +11,9 @@ kubectl delete service nginx-ingress
 kubectl apply -f nlb\nginx-ingress-controller.yml -f nlb\nginx-ingress-service.yml
 
 
-kubectl delete ingress ingress-node --namespace=ns1
-kubectl delete ingress ingress-node-new --namespace=ns1
-kubectl delete ingress ingress-node-new2 --namespace=ns2
-
-kubectl delete ingress ingress-node --namespace=ns2
-kubectl delete ingress ingress-node-new --namespace=ns2
-kubectl delete ingress ingress-node-new2 --namespace=ns2
+kb delete ingress --all
+kb delete ingress --namespace=ns1 --all
+kb delete ingress --namespace=ns2 --all
 
 :: Simulate IOT Ingress rules. e.g. ns.localhost/nodejs1
 :: Setup ingress rules for each namespace
@@ -32,3 +28,5 @@ kubectl apply -f ingress.tmp --namespace=ns2
 ::kubectl apply -f ingress.tmp --namespace=ns1
 ::powershell -Command "(gc nlb\ingress-nodejs-new.yml) -replace '<<namespace>>', 'ns2' | Out-File -encoding ASCII ingress.tmp"
 ::kubectl apply -f ingress.tmp --namespace=ns2
+
+kubectl get service

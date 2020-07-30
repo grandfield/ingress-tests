@@ -1,8 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-node-new2
-
+  name: ingress-node-master
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "master"
 spec:
   rules:
   - host: new.localhost
@@ -13,36 +15,37 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: ns1
-  name: ingress-node-new2
+  name: ingress-node-minion-ns1
   annotations:
     nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
-
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
 spec:
   rules:
   - host: new.localhost
     http:
       paths:
-        - path: /ns1/nodejs1
-          backend:
+      - path: /ns1/nodejs1
+        backend:
             serviceName: nodejs1
             servicePort: 80
-
 ---
 
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   namespace: ns2
-  name: ingress-node-new2
+  name: ingress-node-minion-ns2
   annotations:
     nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
-
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
 spec:
   rules:
   - host: new.localhost
     http:
       paths:
-        - path: /ns2/nodejs1
-          backend:
+      - path: /ns2/nodejs1
+        backend:
             serviceName: nodejs1
-            servicePort: 80           
+            servicePort: 80
