@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: agrandfield
+  name: iot-minion
+  annotations:
+    #nginx.org ingress annotations are documented here:
+    #https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations/
+    nginx.org/websocket-services: "cloudvisuserver, devicesim"
+    nginx.org/client-max-body-size: "16m"
+    nginx.org/rewrites: "serviceName=devicesim rewrite=/;serviceName=cloudvisuserver rewrite=/cloudvisuserver"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
+
+spec:
+  rules:
+    - host: agrandfield.develop.iiotdev.pilz-ie.cloud
+      http:
+        paths:
+          - path: /agrandfield/cloudvisuserver
+            backend:
+              serviceName: cloudvisuserver
+              servicePort: 80
+          - path: /agrandfield/ws/cloudvisuserver
+            backend:
+              serviceName: cloudvisuserver
+              servicePort: 80
+          - path: /agrandfield/bridge
+            backend:
+              serviceName: bridge
+              servicePort: 80
+          - path: /agrandfield/devicemanager
+            backend:
+              serviceName: devicemanager
+              servicePort: 80
+          - path: /agrandfield/opcsim/
+            backend:
+              serviceName: devicesim
+              servicePort: 8585
+          - path: /agrandfield/dsim/
+            backend:
+              serviceName: devicesim
+              servicePort: 40856
+          - path: /agrandfield/dsim-ws
+            backend:
+              serviceName: devicesim
+              servicePort: 40857

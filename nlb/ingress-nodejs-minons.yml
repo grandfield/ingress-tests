@@ -18,6 +18,8 @@ metadata:
   name: ingress-node-minion-ns1
   annotations:
     nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/use-regex: "true"
     kubernetes.io/ingress.class: "nginx"
     nginx.org/mergeable-ingress-type: "minion"
 spec:
@@ -34,10 +36,34 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  namespace: ns1
+  name: ingress-node-minion-ws-ns1
+  annotations:
+    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/ws;"
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "minion"
+spec:
+  rules:
+  - host: new.localhost
+    http:
+      paths:
+      - path: /ns1/ws/nodejs1
+        backend:
+            serviceName: nodejs1
+            servicePort: 80
+
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
   namespace: ns2
   name: ingress-node-minion-ns2
   annotations:
-    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/;"
+    nginx.org/rewrites: "serviceName=nodejs1 rewrite=/shit;"
     kubernetes.io/ingress.class: "nginx"
     nginx.org/mergeable-ingress-type: "minion"
 spec:

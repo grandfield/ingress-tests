@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: agrandfield
+  name: iot-master
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.org/mergeable-ingress-type: "master"
+
+spec:
+  rules:
+    - host: develop.iiotdev.pilz-ie.cloud

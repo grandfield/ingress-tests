@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: virtual-route 
+  namespace: ns1
+spec:
+  host: virtual.localhost
+  upstreams:
+  - name: nodejs1
+    service: nodejs1
+    port: 80
+  subroutes:
+  - path: /.*
+    action:
+      pass: nodejs1
