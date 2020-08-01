@@ -1,0 +1,17 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: iot-vsr 
+  namespace: agrandfield
+spec:
+  host: vs.develop.iiotdev.pilz-ie.cloud
+  upstreams:
+  - name: cloudvisuserver 
+    service: cloudvisuserver
+    port: 80
+  subroutes:
+  - path: /agrandfield/cloudvisuserver
+    action:
+      proxy:
+        upstream: cloudvisuserver
+        rewritePath: /agrandfield/cloudvisuserver

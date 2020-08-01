@@ -1,0 +1,12 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: iot-vs
+  namespace: agrandfield
+spec:
+  host: vs.develop.iiotdev.pilz-ie.cloud
+  routes:
+  - path: /agrandfield
+    route: agrandfield/iot-vsr
+  - path: /edoyle
+    route: edoyle/iot-vsr
